@@ -34,19 +34,20 @@ The motivation for this code is that it's easy to shoot yourself in the foot wit
 * *Atomicity* The CopyOnWriteArrayList is threadsafe, but non-atomic reads/writes are not. Use compound methods like addIfAbsent
 
 ## Chapter 5 Building Blocks
-* *ShowMeTheValues fails with a ConcurrentModificationException because toString() on a list will iterate over it and in this case it is also being updated.
+* *ShowMeTheValues* fails with a ConcurrentModificationException because toString() on a list will iterate over it and in this case it is also being updated.
 ### juc
-* *HashMapTest* Written by Artem Novikov for stackoverflow. Showing the regular _HashMap_ is not threadsafe is easy. While one thread adds keys to the map continually, another thread checks for the existence of a previously added key/value. Note that IntStream.range is exclusive for the upper bound, so targetKey will never be overwritten in the map.
+* *HashMapTest* Written by Artem Novikov on stackoverflow. Showing the regular _HashMap_ is not threadsafe is easy. While one thread adds keys to the map continually, another thread checks for the existence of a previously added key/value. Note that IntStream.range is exclusive for the upper bound, so targetKey will never be overwritten in the map.
 
 ## Chapter 6 Task Execution
 
-### futures
+### Futures
 * *TheFuture* Shows the correct use of Future. A call to getData() is asynchronous and returns a Future immediately. Calls to Future.get() block until a value is set in another thread.
 * *CancelledFuture* Shows what cancellation does to the future. Calls to Future.get() fail after cancellation.
 * *ExceptionalFuture* Shows what happens when the calculation raises an error. The Exception 'hides' until Future.get() is called.
+* *CompletionServiceExample* The JUC CompletionService combines the use of Futures with a BlockingQueue. As tasks are completed, they are added to the queue, where they can be retrieved with take(), which blocks while no completed Future is available. 
 
+### Threadpools
 * *CachedThreadPool* Shows the use of a cached threadpool. It has a potentially unlimited number of threads and reuses them when they are discarded by the user.
 * *FixedThreadPoolWebserver* Shows the use of a fixed threadpool. It has a limited number of threads and reuses them when they are discarded by the user.
 * *Shutdown* and *ShutdownNow* Show the difference between both methods. There are still a lot of tasks in queue when shutdown runs, and they will still be executed. After shutdownNow() there are less dots indicating earlier stop. The currently running task is being interrupted while sleeping.
 * *SingleThreadExecutor* Serves to prove that the queue used is guaranteed FIFO so the numbers are being printed in ascending order.
-* *CompletionServiceExample* The JUC CompletionService combines the use of Futures with a BlockingQueue. As tasks are completed, they are added to the queue, where they can be retrieved with take(), which blocks while no completed Future is available. 
