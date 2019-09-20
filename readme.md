@@ -7,7 +7,7 @@ The code is presented in 'puzzler' style. So it can contain unsafe code and it's
 - [`SafeSequence`](src/chapter1/SafeSequence.java) Uses *synchronized* to guarantee ordered reads/updates.
 - [`Waiter`](src/chapter1/Waiter.java) Object.wait() is tricky. For instance the user must use _synchronized_ but in this case does not lock on the monitor. Other threads can still 'synchronize' on it as shown. The more well known catch is that there can be spurious wakeups, so the user needs some boolean value to make sure a wakeup was valid (not shown here).
 
-### cretans
+### Cretans
 _'All the Cretans are liars'_  -- <cite>Epimenides the Cretan</cite>
  (https://en.wikipedia.org/wiki/Epimenides_paradox)
 
@@ -22,7 +22,7 @@ The motivation for this code is that it's easy to shoot yourself in the foot wit
 - [`SynchronizedCretan5`](src/chapter1/cretans/SynchronizedCretan5.java) Is tricky because _synchronized_ on a method uses _this_ as the lock object. So update() and compare() might not use the same lock object.
 
 ### Sleepers
-This code shows the many ways you historically have to make the thread stop for a while. Should never be necessary. In theory. This approach is still very common even in production code.
+This code shows the many ways you historically have to make the thread stop for a while. Should never be necessary ... in theory. It's still very common even in production code. Sometimes you just can't get around it.
 * [`Sleeper1`](src/chapter1/sleepers/Sleeper1.java) Still the most used way, using Thread.sleep() where the argument is the number of milliseconds. It is not theoretical that a developer mistakenly thinks they are seconds.
 * [`Sleeper2`](src/chapter1/sleepers/Sleeper2.java) The more modern remedy where the unit is explicit. 
 * [`Sleeper3a`](src/chapter1/sleepers/Sleeper3a.java) Again using Object.wait().
@@ -67,3 +67,5 @@ This code shows the many ways you historically have to make the thread stop for 
 ## Chapter 7 Task Cancellation
 - [`TrickyTaskCancellation`](src/chapter7/TrickyTaskCancellation.java) Shows the subtle difference between interupted() and isInterrupted.
 - [`Shutdown`](src/chapter7/Shutdown.java) and [`ShutdownNow`](src/chapter7/ShutdownNow.java) Show the difference between both methods. There are still a lot of tasks in queue when shutdown runs, and they will still be executed. After shutdownNow() there are less dots indicating earlier stop. The currently running task is being interrupted while sleeping.
+- [`Finalizing`](src/chapter7/Finalizing.java) The single Finalizer thread is busy finalizing, only until the JVM exits. If you have resources to be closed outside the process, you have no guarantee that that will actually happen. @Deprecated
+- [`OnShutdown`](src/chapter7/OnShutdown.java) Shutdown hooks are still a valid way to do things before the JVM exits.
