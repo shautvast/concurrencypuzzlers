@@ -7,6 +7,9 @@ The code is presented in 'puzzler' style. So it can contain unsafe code and it's
 - [`SafeSequence`](src/chapter1/SafeSequence.java) Uses *synchronized* to guarantee ordered reads/updates.
 
 ### cretans
+_'All the Cretans are liars'_  -- <cite>Epimenides the Cretan</cite>
+ (https://en.wikipedia.org/wiki/Epimenides_paradox)
+
 The motivation for this code is that it's easy to shoot yourself in the foot with threads in java and how to prevent that. I would like to add here that java has evolved over the years while keeping less useful concepts (ie. object.wait(), or volatile), while more modern languages have fewer outdated threading primitives and are therefore safer to use.
 
 - [`Cretan`](src/chapter1/cretans/Cretan.java) A simple class that has mutable state and that has no protection from being shared in a dysfunctional way.
