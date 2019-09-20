@@ -1,4 +1,4 @@
-package sleepers;
+package chapter1.sleepers;
 
 import common.TestHarness;
 import org.junit.Test;

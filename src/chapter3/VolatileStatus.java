@@ -1,7 +1,5 @@
 package chapter3;
 
-import common.ThreadSafe;
-
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

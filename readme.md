@@ -5,6 +5,7 @@ The code is presented in 'puzzler' style. So it can contain unsafe code and it's
 ## Chapter 1 Fundamentals
 - [`UnsafeSequence`](src/chapter1/UnsafeSequence.java) Shows that concurrent reads will see the same value, resulting in undefined behavior. The code uses the treadsafe _CopyOnWriteArrayList_ instead of printing directly to stdout to prove that the writes/updates are not ordered, not the calls to _println()_. The code also introduces the use of _TestHarness_ that allows any number of threads to operate on the class under test. Internally it uses a _CountdownLatch_ to assure that the threads al start the exact same time instead of creation time (the threads themselves are created sequentially). This technique is described in JCiP ch. 5.1.1
 - [`SafeSequence`](src/chapter1/SafeSequence.java) Uses *synchronized* to guarantee ordered reads/updates.
+- [`Waiter`](src/chapter1/Waiter.java) Object.wait() is tricky. For instance the user must use _synchronized_ but in this case does not lock on the monitor. Other threads can still 'synchronize' on it as shown. The more well known catch is that there can be spurious wakeups, so the user needs some boolean value to make sure a wakeup was valid (not shown here).
 
 ### cretans
 _'All the Cretans are liars'_  -- <cite>Epimenides the Cretan</cite>
@@ -19,6 +20,15 @@ The motivation for this code is that it's easy to shoot yourself in the foot wit
 - [`SynchronizedCretan3`](src/chapter1/cretans/SynchronizedCretan3.java) Shows that you can synchronize on anything, but this code is tricky because it only works because the compiler *interns* the String literal, so it becomes a reference to the same object.
 - [`SynchronizedCretan4`](src/chapter1/cretans/SynchronizedCretan4.java) Is wrong, because *new String()* always creates a new object, so it no longer serves as a valid lock.
 - [`SynchronizedCretan5`](src/chapter1/cretans/SynchronizedCretan5.java) Is tricky because _synchronized_ on a method uses _this_ as the lock object. So update() and compare() might not use the same lock object.
+
+### Sleepers
+This code shows the many ways you historically have to make the thread stop for a while. Should never be necessary. In theory. This approach is still very common even in production code.
+* [`Sleeper1`](src/chapter1/sleepers/Sleeper1.java) Still the most used way, using Thread.sleep() where the argument is the number of milliseconds. It is not theoretical that a developer mistakenly thinks they are seconds.
+* [`Sleeper2`](src/chapter1/sleepers/Sleeper2.java) The more modern remedy where the unit is explicit. 
+* [`Sleeper3a`](src/chapter1/sleepers/Sleeper3a.java) Again using Object.wait().
+* [`Sleeper3b`](src/chapter1/sleepers/Sleeper3b.java) Synchronized still doesn't synchronize on _this_
+* [`Sleeper4`](src/chapter1/sleepers/Sleeper4.java) Thread.yield(). Don't use it.
+
 
 ## Chapter 2 Thread Safety
 - [`LazyInit`](src/chapter2/LazyInit.java) Taken from Listing 2.3. Lazy initialization might seem a good way to postpone initialization until it is actually needed, but introduces new problems (race conditions). This was not uncommon in older applications. 
@@ -39,12 +49,12 @@ The motivation for this code is that it's easy to shoot yourself in the foot wit
 ## Chapter 5 Building Blocks
 - [`ShowMeTheValues`](src/chapter5/ShowMeTheValues.java) fails with a ConcurrentModificationException because toString() on a list will iterate over it and in this case it is also being updated.
 ### juc
-- [`HashMapTest`](src/chapter5/juc/HashMapTest.java) Written by Artem Novikov on stackoverflow. Showing the regular _HashMap_ is not threadsafe is easy. While one thread adds keys to the map continually, another thread checks for the existence of a previously added key/value. Note that IntStream.range is exclusive for the upper bound, so targetKey will never be overwritten in the map.
+- [`HashMapTest`](src/chapter5/juc/HashMapTest.java) Written by Artem Novikov on [stackoverflow](https://stackoverflow.com/questions/18542037/how-to-prove-that-hashmap-in-java-is-not-thread-safe). Showing the regular _HashMap_ is not threadsafe is easy. While one thread adds keys to the map continually, another thread checks for the existence of a previously added key/value. Note that IntStream.range is exclusive for the upper bound, so targetKey will never be overwritten in the map.
 
 ## Chapter 6 Task Execution
 
 ### Futures
-- [`TheFuture`](src/chapter6/futures/TheFuture.java) Shows the correct use of Future. A call to getData() is asynchronous and returns a Future immediately. Calls to Future.get() block until a value is set in another thread.
+- [`TheFuture`](src/chapter6/futures/TheFuture.java) Shows the correct use of java.util.concurrent.Future. A call to getData() is asynchronous and returns a Future immediately. Calls to Future.get() block until a value is set in another thread.
 - [`CancelledFuture`](src/chapter6/futures/CancelledFuture.java) Shows what cancellation does to the future. Calls to Future.get() fail after cancellation.
 - [`ExceptionalFuture`](src/chapter6/futures/ExceptionalFuture.java) Shows what happens when the calculation raises an error. The Exception 'hides' until Future.get() is called.
 - [`CompletionServiceExample`](src/chapter6/futures/CompletionServiceExample.java) The JUC CompletionService combines the use of Futures with a BlockingQueue. As tasks are completed, they are added to the queue, where they can be retrieved with take(), which blocks while no completed Future is available. 

@@ -1,4 +1,4 @@
-package sleepers;
+package chapter1.sleepers;
 
 public class Sleeper1 {
 

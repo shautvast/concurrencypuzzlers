@@ -12,7 +12,11 @@ public class Atomicity {
 
     @Test
     public void test() {
-        new TestHarness(8).testMultiThreaded(() -> this.addOneEntry());
+        TestHarness testHarness = new TestHarness(8);
+        testHarness.testMultiThreaded(() -> {
+            testHarness.waitForSignal();
+            this.addOneEntry();
+        });
         Assert.assertEquals(1, values.size());
     }
 
