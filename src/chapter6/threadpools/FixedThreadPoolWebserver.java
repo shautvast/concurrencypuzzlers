@@ -1,4 +1,4 @@
-package chapter6;
+package chapter6.threadpools;
 
 
 import java.io.*;
@@ -15,9 +15,7 @@ public class FixedThreadPoolWebserver {
     private static final Executor threadpool = Executors.newFixedThreadPool(1);
 
     public static void main(String[] args) throws IOException {
-        threadpool.execute(() -> {
-            Thread.currentThread().setName("Hello Visitor");
-        });
+        threadpool.execute(() -> Thread.currentThread().setName("Hello Visitor"));
 
         ServerSocket serverSocket = new ServerSocket(8080);
         for (; ; ) {

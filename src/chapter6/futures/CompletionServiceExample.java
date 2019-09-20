@@ -1,4 +1,4 @@
-package chapter6;
+package chapter6.futures;
 
 import java.util.concurrent.*;
 

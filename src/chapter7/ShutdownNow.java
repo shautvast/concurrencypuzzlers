@@ -1,4 +1,4 @@
-package chapter6;
+package chapter7;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,7 +9,6 @@ public class ShutdownNow {
         ExecutorService threadPool = Executors.newCachedThreadPool();
         threadPool.submit(() -> {
             for (int i = 0; ; i++) {
-                final int v = i;
                 threadPool.submit(() -> {
                     try {
                         TimeUnit.MICROSECONDS.sleep(10);

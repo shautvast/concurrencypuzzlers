@@ -1,4 +1,4 @@
-package chapter6;
+package chapter6.threadpools;
 
 import java.io.IOException;
 import java.net.ServerSocket;
