@@ -79,4 +79,4 @@ This code shows the many ways you historically have to make the thread stop for 
 - [`CustomThreadPoolExecutor`](src/chapter8/CustomThreadPoolExecutor.java) Executors can be extended using provided hooks. This code (inspired by listing 8.9) shows how to capture task execution times.
 
 ## chapter 10 Avoiding Liveness Hazards
-- [`Bank`](src/chapter10/Bank.java) Proves the point made in listing 10.2 concerning deadlock due to dynamic lock-reordering. The from account and to account will very likely be the same (but reversed) in 2 different threads. Locking on the accounts must always happen in the same order to avoid deadlock. The cure for this is in the book in listing 10.3.  
+- [`Bank`](src/chapter10/Bank.java) Proves the point made in listing 10.2 concerning deadlock due to dynamic lock-reordering. The from account and to account will very likely be the same (but reversed) in 2 different threads. Locking on the accounts must always happen in the same order to avoid deadlock. The cure for this is in the book in listing 10.3. This code will at some point stop working and the account (lock) reversal is visible in stdout. 
