@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /*
- * Basic example taken from JCIP listing 1.2 (also slightly altered)
+ * Basic example taken from JCIP listing 1.2 (slightly altered)
  */
 public class SafeSequence {
     private final List<Integer> collectedValues = new CopyOnWriteArrayList<>();
@@ -20,6 +20,7 @@ public class SafeSequence {
     }
 
     @Test
+    @SuppressWarnings("Duplicates")
     public void test() throws InterruptedException {
         TestHarness testHarness = new TestHarness(8);
 

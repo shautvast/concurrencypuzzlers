@@ -22,6 +22,7 @@ public class UnsafeSequence {
     }
 
     @Test
+    @SuppressWarnings("Duplicates")
     public void test() throws InterruptedException {
         TestHarness testHarness = new TestHarness(8);
 

@@ -2,7 +2,6 @@ package chapter1.sleepers;
 
 public class Sleeper1 {
 
-    // NB they are milliseconds
     public static void main(String[] args) throws InterruptedException {
         System.out.println("sleep");
 

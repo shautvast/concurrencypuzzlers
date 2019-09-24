@@ -1,5 +1,5 @@
 # Java Concurrency in Practice
-I created this code to complement the book by showing the pitfalls of using threads in java and by showing the correct use of some concurrency primitives since java 1.5. It is no replacement for the book and does not necessarily cover all aspects covered. Some code goes beyond the book for instance when trying to actually prove what is said, for instance the thread-unsafety of java.util.HashMap.
+I created this code to complement the book by showing the pitfalls of using threads in java and by showing the correct use of some concurrency primitives since java 1.5. It is no replacement for the book and does not necessarily cover all of its aspects. Some code goes beyond the book for instance when trying to actually prove what is said, for instance the thread-unsafety of java.util.HashMap.
 The code is presented in 'puzzler' style. So it can contain unsafe code and it's up to the reader to discover that. This readme is added as an explanation.
 
 ## Chapter 1 Fundamentals
@@ -32,7 +32,7 @@ This code shows the many ways you historically have to make the thread stop for 
 
 ## Chapter 2 Thread Safety
 - [`LazyInit`](src/chapter2/LazyInit.java) Taken from Listing 2.3. Lazy initialization might seem a good way to postpone initialization until it is actually needed, but introduces new problems (race conditions). This was not uncommon in older applications. 
-- [`SafeLazyInit`](src/chapter2/SafeLazyInit.java) Is safe while not being very scalable. Readonly singletons are better initialized while starting up, for instance using dependency injection.
+- [`SafeLazyInit`](src/chapter2/SafeLazyInit.java) Is safe while not being very scalable. Readonly singletons are better initialized while starting up, for instance using dependency injection. See https://www.javaworld.com/article/2074979/double-checked-locking--clever--but-broken.html for the definitive answer on double-checked locking 
 
 ## Chapter 3 Sharing Objects
 - [`AttemptToShowReordering`](src/chapter3/AttemptToShowReordering.java) The java memory model facilitates modern processors that are free to reorder instructions, if (and only if) reordering would not harm sequential execution. While this is accepted theory, it is surprisingly difficult (if not impossible) to show reordering on Intel processors. The code tries to find a situation where variables _b_ or _c_ are set but _a_ is not.

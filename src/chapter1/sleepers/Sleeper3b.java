@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Sleeper3b {
 
-    /* what does this print? */
+    /* what does this print and does that bother you? */
     public void sleep() {
         synchronized (this) {
             try {

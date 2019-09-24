@@ -34,11 +34,12 @@ public class Waiter {
 
         // wait now
         System.out.println("1 wait");
+
         synchronized (lock) {
             lock.wait();
         }
 
-        System.out.println("4 wait no more");
+        System.out.println("4 wait no longer");
 
         executor.shutdownNow();
     }
